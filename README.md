@@ -1,1 +1,1 @@
-This addon is made so you can automatically recolor youf folders using specific keywords.
+This addon is made so you can automatically recolor your folders using specific keywords.
