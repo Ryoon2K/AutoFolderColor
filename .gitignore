@@ -1,0 +1,18 @@
+# Godot 4+ specific ignores
+.godot/
+.pat
+kanban_tasks_data.kanban
+empty.tscn
+project.godot
+new_script.gd
+icon.svg
+icon.svg.import
+this_has_poop/
+addons/autofoldercolor/save_data/saved_configs
+addons/autofoldercolor/save_data/backups
+addons/autofoldercolor/essential/dock/afc_config.tres
+addons/autofoldercolor/essential/dock/afc_settings.tres
+addons/godot-git-plugin
+addons/kanban_tasks
+addons/autofoldercolor/essential/dock/afc_dock_dupe.tscn
+/android/

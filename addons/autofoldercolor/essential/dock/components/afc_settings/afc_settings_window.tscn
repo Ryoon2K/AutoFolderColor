@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=3 uid="uid://gaal1ajolrhn"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/afc_settings/afc_settings_window.gd" id="1_i00ix"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjmpn"]
+bg_color = Color(0.343861, 0.343861, 0.343861, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.180933, 0.180933, 0.180933, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="SystemFont" id="SystemFont_xux5h"]
+font_names = PackedStringArray("Monospace")
+font_weight = 675
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luf8k"]
+bg_color = Color(0.221665, 0.221665, 0.221665, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_5lwfu"]
+color = Color(0.180933, 0.180933, 0.180933, 1)
+thickness = 3
+
+[node name="AfcSettingsWindow" type="Window"]
+title = "Settings Window"
+position = Vector2i(818, 150)
+size = Vector2i(400, 500)
+transient = true
+exclusive = true
+unresizable = true
+popup_window = true
+content_scale_size = Vector2i(400, 500)
+content_scale_mode = 2
+content_scale_aspect = 1
+script = ExtResource("1_i00ix")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xjmpn")
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+
+[node name="Title" type="VBoxContainer" parent="Panel/Margin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Panel/Margin/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = SubResource("SystemFont_xux5h")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_luf8k")
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/Margin/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxLine_5lwfu")
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBoxContainer/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="MainVBox" type="VBoxContainer" parent="Panel/Margin/VBoxContainer/Scroll/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20

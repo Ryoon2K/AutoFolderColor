@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://b2f8aq30bsgv3"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/scripts/option_popup.gd" id="1_81rt8"]
+[ext_resource type="PackedScene" uid="uid://djnbeug0lum8u" path="res://addons/autofoldercolor/essential/dock/components/scenes/bool_popup.tscn" id="2_vewps"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwvuq"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7aajx"]
+bg_color = Color(0.608618, 0.608618, 0.608618, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_co7sb"]
+
+[node name="RestoreMenu" type="Window" node_paths=PackedStringArray("bool_popup")]
+auto_translate_mode = 1
+title = "Selection Popup"
+position = Vector2i(360, 157)
+size = Vector2i(260, 60)
+visible = false
+exclusive = true
+unresizable = true
+min_size = Vector2i(260, 60)
+content_scale_size = Vector2i(260, 0)
+script = ExtResource("1_81rt8")
+bool_popup = NodePath("BoolPopup")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dwvuq")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_styles/normal = SubResource("StyleBoxFlat_7aajx")
+text = "Select an option"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxLine_co7sb")
+
+[node name="OptionButton" type="OptionButton" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+fit_to_longest_item = false
+allow_reselect = true
+
+[node name="BoolPopup" parent="." instance=ExtResource("2_vewps")]
+unique_name_in_owner = true
+position = Vector2i(989, 84)
+visible = false
+popup_window = false
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]

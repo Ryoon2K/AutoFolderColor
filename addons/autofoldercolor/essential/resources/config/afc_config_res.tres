@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="AFCConfig" load_steps=2 format=3 uid="uid://44rax5xiup2v"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/resources/config/afc_config_res.gd" id="1_l4k8l"]
+
+[resource]
+script = ExtResource("1_l4k8l")

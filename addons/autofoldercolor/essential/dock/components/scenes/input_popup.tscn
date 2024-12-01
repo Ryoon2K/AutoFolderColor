@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnpeeo7qsl4rs"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/scripts/input_popup.gd" id="1_yex3t"]
+[ext_resource type="PackedScene" uid="uid://djnbeug0lum8u" path="res://addons/autofoldercolor/essential/dock/components/scenes/bool_popup.tscn" id="2_ymc7w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bc438"]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7aajx"]
+bg_color = Color(0.64, 0.64, 0.64, 0)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_co7sb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dyrg4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qx0up"]
+
+[node name="InputPopup" type="Window"]
+auto_translate_mode = 1
+title = "Input Popup"
+position = Vector2i(1226, 84)
+size = Vector2i(250, 130)
+exclusive = true
+unresizable = true
+content_scale_size = Vector2i(250, 150)
+script = ExtResource("1_yex3t")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bc438")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBox" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_styles/normal = SubResource("StyleBoxFlat_7aajx")
+text = "Give the file a name"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_co7sb")
+
+[node name="Edit" type="LineEdit" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "_1"
+caret_blink = true
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxEmpty_dyrg4")
+
+[node name="HBox" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="Save" type="Button" parent="Panel/MarginContainer/VBox/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="VSeparator3" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 15
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="Cancel" type="Button" parent="Panel/MarginContainer/VBox/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="VSeparator" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="BoolPopup" parent="." instance=ExtResource("2_ymc7w")]
+unique_name_in_owner = true
+position = Vector2i(320, 441)
+visible = false
+popup_window = false
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="focus_exited" from="BoolPopup" to="." method="_on_bool_popup_focus_exited"]

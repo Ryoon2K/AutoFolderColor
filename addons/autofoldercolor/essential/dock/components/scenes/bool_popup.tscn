@@ -1,0 +1,153 @@
+[gd_scene load_steps=8 format=3 uid="uid://djnbeug0lum8u"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/scripts/bool_popup.gd" id="1_yni5c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vm4jj"]
+bg_color = Color(0.425325, 0.257417, 0.257417, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.438902, 0.0520372, 0.0520372, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="SystemFont" id="SystemFont_38eup"]
+font_names = PackedStringArray("Consolas")
+font_weight = 800
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_co7sb"]
+grow_begin = -1.0
+grow_end = -1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qx0up"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3hnuv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pyyvd"]
+
+[node name="BoolPopup" type="Window"]
+auto_translate_mode = 1
+title = "Warning Popup"
+position = Vector2i(814, 93)
+size = Vector2i(260, 160)
+transient = true
+exclusive = true
+unresizable = true
+popup_window = true
+content_scale_size = Vector2i(250, 160)
+content_scale_mode = 2
+content_scale_aspect = 1
+script = ExtResource("1_yni5c")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vm4jj")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(215, 90)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_38eup")
+theme_override_font_sizes/font_size = 15
+text = "Are you sure?
+This will override your previous data."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_co7sb")
+
+[node name="HBox" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="Yes" type="Button" parent="Panel/MarginContainer/VBox/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Yes"
+
+[node name="VSeparator3" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 15
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="No" type="Button" parent="Panel/MarginContainer/VBox/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No"
+
+[node name="VSeparator" type="VSeparator" parent="Panel/MarginContainer/VBox/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qx0up")
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3hnuv")
+
+[node name="Disable" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 10
+theme_override_constants/separation = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/MarginContainer/VBox/Disable"]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_pyyvd")
+
+[node name="Button" type="CheckButton" parent="Panel/MarginContainer/VBox/Disable"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_focus_color = Color(0.791912, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/VBox/Disable"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "Press this button to disable this popup"
+autowrap_mode = 2

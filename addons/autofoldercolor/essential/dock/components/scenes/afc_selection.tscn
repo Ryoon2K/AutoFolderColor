@@ -1,0 +1,185 @@
+[gd_scene load_steps=26 format=3 uid="uid://b773emrmd7i2x"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/scripts/afc_selection.gd" id="1_wncip"]
+[ext_resource type="Texture2D" uid="uid://xlk5c578hn6f" path="res://addons/autofoldercolor/essential/dock/icons/trash.png" id="2_jiusl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0pnda"]
+bg_color = Color(0.0352941, 0.0352941, 0.0705882, 0.741176)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0cl81"]
+color = Color(0.19, 0.19, 0.19, 1)
+grow_begin = -1.0
+grow_end = -1.0
+thickness = 2
+vertical = true
+
+[sub_resource type="SystemFont" id="SystemFont_yr720"]
+font_names = PackedStringArray("Calibri")
+font_weight = 675
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="Gradient" id="Gradient_mukhj"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_id8wx"]
+gradient = SubResource("Gradient_mukhj")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_7j56j"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.647059, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tl3qn"]
+gradient = SubResource("Gradient_7j56j")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_uwbnl"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_085t5"]
+gradient = SubResource("Gradient_uwbnl")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_ywv3v"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iw28g"]
+gradient = SubResource("Gradient_ywv3v")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_ia06c"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.12549, 0.698039, 0.666667, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nquuc"]
+gradient = SubResource("Gradient_ia06c")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_vnvcp"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.74902, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_25od0"]
+gradient = SubResource("Gradient_vnvcp")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_p8t6v"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.4, 0.2, 0.6, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gpovf"]
+gradient = SubResource("Gradient_p8t6v")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_3npgs"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.0784314, 0.576471, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_juwdk"]
+gradient = SubResource("Gradient_3npgs")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_h80kc"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.411765, 0.411765, 0.411765, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2b786"]
+gradient = SubResource("Gradient_h80kc")
+width = 10
+height = 10
+
+[sub_resource type="Gradient" id="Gradient_0j5yp"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gc1jj"]
+gradient = SubResource("Gradient_0j5yp")
+width = 10
+height = 10
+
+[node name="SelectionItem" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+size_flags_vertical = 0
+script = ExtResource("1_wncip")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_0pnda")
+placeholder_text = "Input Keyword"
+max_length = 25
+expand_to_text_length = true
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_0cl81")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("SystemFont_yr720")
+text_overrun_behavior = 1
+clip_text = true
+selected = 0
+allow_reselect = true
+item_count = 10
+popup/item_0/text = "Red"
+popup/item_0/icon = SubResource("GradientTexture2D_id8wx")
+popup/item_1/text = "Orange"
+popup/item_1/icon = SubResource("GradientTexture2D_tl3qn")
+popup/item_1/id = 1
+popup/item_2/text = "Yellow"
+popup/item_2/icon = SubResource("GradientTexture2D_085t5")
+popup/item_2/id = 2
+popup/item_3/text = "Green"
+popup/item_3/icon = SubResource("GradientTexture2D_iw28g")
+popup/item_3/id = 3
+popup/item_4/text = "Teal"
+popup/item_4/icon = SubResource("GradientTexture2D_nquuc")
+popup/item_4/id = 4
+popup/item_5/text = "Blue"
+popup/item_5/icon = SubResource("GradientTexture2D_25od0")
+popup/item_5/id = 5
+popup/item_6/text = "Purple"
+popup/item_6/icon = SubResource("GradientTexture2D_gpovf")
+popup/item_6/id = 6
+popup/item_7/text = "Pink"
+popup/item_7/icon = SubResource("GradientTexture2D_juwdk")
+popup/item_7/id = 7
+popup/item_8/text = "Gray"
+popup/item_8/icon = SubResource("GradientTexture2D_2b786")
+popup/item_8/id = 8
+popup/item_9/text = "Black"
+popup/item_9/icon = SubResource("GradientTexture2D_gc1jj")
+popup/item_9/id = 9
+
+[node name="Button" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 2
+tooltip_text = "Delete this keyword"
+theme_override_colors/icon_normal_color = Color(0.867471, 0.87072, 0.873376, 1)
+theme_override_colors/icon_hover_color = Color(0.628985, 0.17385, 0.17385, 1)
+icon = ExtResource("2_jiusl")
+flat = true
+icon_alignment = 1

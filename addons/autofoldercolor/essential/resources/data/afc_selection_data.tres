@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AFCSelectionData" load_steps=2 format=3 uid="uid://chab8sv17sepu"]
+
+[ext_resource type="Script" path="res://addons/autofoldercolor/essential/resources/data/afc_selection_data.gd" id="1_uhs58"]
+
+[resource]
+script = ExtResource("1_uhs58")
+keyword = ""
+color = ""
