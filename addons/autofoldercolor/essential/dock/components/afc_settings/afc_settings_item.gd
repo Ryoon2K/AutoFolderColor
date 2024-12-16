@@ -14,6 +14,8 @@ func _ready() -> void:
 	else: check_box.set_pressed_no_signal(false)
 	
 	check_box.connect("toggled",_change_setting)
+	
+	$HSeparator.set("theme_override_styles/separator",$HSeparator.get("theme_override_styles/separator").duplicate())
 
 func _init_text()->void:
 	var _text := property_name
@@ -26,8 +28,13 @@ func _init_text()->void:
 	label.text = _text
 
 func update() -> void:
-	if AFCDock.settings.get(property_name): check_box.set_pressed_no_signal(true)
-	else: check_box.set_pressed_no_signal(false)
+	var sep_theme:StyleBoxLine = $HSeparator.get("theme_override_styles/separator")
+	if AFCDock.settings.get(property_name):
+		check_box.set_pressed_no_signal(true)
+		sep_theme.color.h = 0.59
+	else:
+		check_box.set_pressed_no_signal(false)
+		sep_theme.color.h = 0
 
 func _change_setting(on:bool) -> void:
 	AFCDock.settings.set(property_name,on)

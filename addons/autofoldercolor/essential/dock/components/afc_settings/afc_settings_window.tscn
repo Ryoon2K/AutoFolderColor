@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://gaal1ajolrhn"]
+[gd_scene load_steps=7 format=3 uid="uid://gaal1ajolrhn"]
 
 [ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/afc_settings/afc_settings_window.gd" id="1_i00ix"]
 
@@ -26,9 +26,11 @@ bg_color = Color(0.221665, 0.221665, 0.221665, 1)
 color = Color(0.180933, 0.180933, 0.180933, 1)
 thickness = 3
 
+[sub_resource type="Theme" id="Theme_l6dn2"]
+
 [node name="AfcSettingsWindow" type="Window"]
 title = "Settings Window"
-position = Vector2i(818, 150)
+position = Vector2i(727, 36)
 size = Vector2i(400, 500)
 transient = true
 exclusive = true
@@ -97,4 +99,5 @@ theme_override_constants/separation = 15
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = SubResource("Theme_l6dn2")
 theme_override_constants/separation = 20

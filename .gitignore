@@ -10,9 +10,10 @@ icon.svg.import
 this_has_poop/
 addons/autofoldercolor/save_data/saved_configs
 addons/autofoldercolor/save_data/backups
-addons/autofoldercolor/essential/dock/afc_config.tres
-addons/autofoldercolor/essential/dock/afc_settings.tres
+addons/autofoldercolor/save_data/afc_config.tres
+addons/autofoldercolor/save_data/afc_settings.tres
 addons/godot-git-plugin
 addons/kanban_tasks
+addons/paste_bin_api
 addons/autofoldercolor/essential/dock/afc_dock_dupe.tscn
 /android/

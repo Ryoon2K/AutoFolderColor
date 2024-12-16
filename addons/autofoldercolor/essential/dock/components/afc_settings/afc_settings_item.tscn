@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://m82c5focrs0u"]
+[gd_scene load_steps=5 format=3 uid="uid://m82c5focrs0u"]
 
 [ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/components/afc_settings/afc_settings_item.gd" id="1_3qm2r"]
 
@@ -8,6 +8,10 @@
 font_names = PackedStringArray("Arial")
 font_weight = 750
 subpixel_positioning = 0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ib1m4"]
+color = Color(0, 0.15, 0.45, 1)
+thickness = 3
 
 [node name="SettingsItem" type="VBoxContainer"]
 theme_override_constants/separation = 0
@@ -44,4 +48,5 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_imhy2")
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/separation = 0
+theme_override_constants/separation = 1
+theme_override_styles/separator = SubResource("StyleBoxLine_ib1m4")

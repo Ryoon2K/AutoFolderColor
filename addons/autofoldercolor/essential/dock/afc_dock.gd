@@ -47,11 +47,11 @@ func _ready() -> void:
 
 ## Loads the main configuration resource
 func _config_load()->void:
-	if !FileAccess.file_exists("%s%s"%[afc_folder,"afc_config.tres"]):
+	if !FileAccess.file_exists("%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"]):
 		config = AFCConfig.new()
 		save_config()
 	else:
-		config = ResourceLoader.load("%s%s"%[afc_folder,"afc_config.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
+		config = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
 ## This is used to fix an AFC config if it loads with Read_Only arrays.
 ## It happens if a array is saved empty. Makes the Array functionally useless.
 func _read_only_fix(afc_config:AFCConfig)->AFCConfig:
@@ -93,7 +93,7 @@ func _init_config()->void:
 		%CK_VBox.add_child(selection_node)
 ## Saves the current config to the afc_folder path
 func save_config()->void:
-	ResourceSaver.save(config,"%s%s"%[afc_folder,"afc_config.tres"])
+	ResourceSaver.save(config,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"])
 ## Used to clear both lists when loading a configuration
 func _clear_keywords() -> void:
 	for item:AFCSelectionItem in %EK_VBox.get_children():
@@ -110,14 +110,14 @@ func _init_settings()->void:
 	apply_settings()
 ## Loads settings
 func _load_settings()->void:
-	if !FileAccess.file_exists("%s%s"%[afc_folder,"afc_settings.tres"]):
+	if !FileAccess.file_exists("%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"]):
 		settings = AFCSettings.new()
 		save_settings()
 	else:
-		settings = ResourceLoader.load("%s%s"%[afc_folder,"afc_settings.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
+		settings = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
 ## Saves settings
 func save_settings()->void:
-	ResourceSaver.save(settings,"%s%s"%[afc_folder,"afc_settings.tres"])
+	ResourceSaver.save(settings,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"])
 	apply_settings()
 ## Applies the updated settings
 func apply_settings()->void:
@@ -144,10 +144,6 @@ func apply_settings()->void:
 				%RestoreMenu.bool_popup.settings_property = prop.name
 			"show_clear_colors_warning":
 				%ClearColorsPopup.settings_property = prop.name
-			"show_clear_contains_list_warning":
-				%ClearContainsPopup.settings_property = prop.name
-			"show_clear_exact_list_warning":
-				%ClearExactPopup.settings_property = prop.name
 			"show_turn_on_auto_warning":
 				%AutoPopup.settings_property = prop.name
 
@@ -331,48 +327,19 @@ func _items_duplicates_check() -> void:
 		if item.is_blocked:item.has_duplicate()
 	pass
 
-## Recursively goes through every file and folder and checks if the fit the criteria.
-## Anything that fits the given criteria will be added to a given dictionary.
+## Recursively goes through every folder and checks if it fits the criteria.
+## Anything that fits the given criteria will be added to a dictionary.
 func _set_colors_recursive(path:String,_dict:Dictionary):
 	var files:= DirAccess.get_files_at(path)
 	if files.has(".gdignore"):return[]
 	var folders:= DirAccess.get_directories_at(path)
 	
-	var filders:PackedStringArray = files+folders
-	
-	for file in files.duplicate():
-		for item in AFC_ExcludeFromSearch.ends_with:
-			if file.ends_with(item) or file == item:
-				files.remove_at(files.find(file))
-				break
-	for folder in folders.duplicate():
-		for item in AFC_ExcludeFromSearch.ends_with:
-			if folder.ends_with(item) or folder == item:
-				folders.remove_at(folders.find(folder))
-				break
-	
-	for item in filders:
+	for item in folders:
 		for c in contains.keys():
-			if settings.exact_keywords_ignore_file_formats:
-				var reg_search := file_format_regx.search(item)
-				var new_item :String
-				if reg_search:new_item = item.trim_suffix(reg_search.get_string())
-				else:new_item = item
-				
-				if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
-			else:
-				if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
-	for item in filders:
+			if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
+	for item in folders:
 		for e in exact.keys():
-			if settings.exact_keywords_ignore_file_formats:
-				var reg_search := file_format_regx.search(item)
-				var new_item :String
-				if reg_search:new_item = item.trim_suffix(reg_search.get_string())
-				else:new_item = item
-				
-				if new_item == e: _dict["%s%s/"%[path,item]] = exact[e]
-			else:
-				if item == e: _dict["%s%s/"%[path,item]] = exact[e]
+			if item == e: _dict["%s%s/"%[path,item]] = exact[e]
 	
 	for folder in folders:
 		_set_colors_recursive("%s%s/"%[path,folder],_dict)
