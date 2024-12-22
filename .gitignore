@@ -8,8 +8,8 @@ new_script.gd
 icon.svg
 icon.svg.import
 this_has_poop/
-addons/autofoldercolor/save_data/saved_configs
-addons/autofoldercolor/save_data/backups
+addons/autofoldercolor/save_data/saved_configs/config_1.tres
+addons/autofoldercolor/save_data/backups/backup_1.tres
 addons/autofoldercolor/save_data/afc_config.tres
 addons/autofoldercolor/save_data/afc_settings.tres
 addons/godot-git-plugin
