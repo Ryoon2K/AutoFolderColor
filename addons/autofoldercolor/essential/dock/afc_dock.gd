@@ -93,6 +93,14 @@ func _init_config()->void:
 		%CK_VBox.add_child(selection_node)
 ## Saves the current config to the afc_folder path
 func save_config()->void:
+	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
+	match err:
+		1:
+			pass
+		32:
+			pass
+		_:
+			print("Unexpected error when saving: "+error_string(err))
 	ResourceSaver.save(config,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"])
 ## Used to clear both lists when loading a configuration
 func _clear_keywords() -> void:
@@ -117,6 +125,14 @@ func _load_settings()->void:
 		settings = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
 ## Saves settings
 func save_settings()->void:
+	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
+	match err:
+		1:
+			pass
+		32:
+			pass
+		_:
+			print("Unexpected error when saving: "+error_string(err))
 	ResourceSaver.save(settings,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"])
 	apply_settings()
 ## Applies the updated settings
@@ -267,7 +283,15 @@ func _on_save_pressed() -> void:
 	var folder:String =  %SaveMenu.FOLDER
 	var file_name:String = %SaveMenu.edit.text
 	
-	ResourceSaver.save(config,"%s%s.tres"%[folder,file_name])
+	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/saved_configs")
+	match err:
+		1:
+			pass
+		32:
+			pass
+		_:
+			print("Unexpected error when saving: "+error_string(err))
+	ResourceSaver.save(config,"res://addons/autofoldercolor/save_data/saved_configs/%s.tres"%[file_name])
 	
 	%SaveMenu.visible = false
 
@@ -281,8 +305,17 @@ func _on_backup_pressed() -> void:
 	var file_name:String = %BackupMenu.edit.text
 	var backup_res := AFCBackup.new()
 	
+	
+	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
+	match err:
+		1:
+			pass
+		32:
+			pass
+		_:
+			print("Unexpected error when saving: "+error_string(err))
 	backup_res.folder_colors = ProjectSettings.get_setting("file_customization/folder_colors")
-	ResourceSaver.save(backup_res,"%s%s.tres"%[folder,file_name])
+	ResourceSaver.save(backup_res,"res://addons/autofoldercolor/save_data/backups/%s.tres"%[file_name])
 	
 	%BackupMenu.visible = false
 func _on_restore_pressed() -> void:
