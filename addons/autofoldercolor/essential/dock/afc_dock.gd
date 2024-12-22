@@ -95,7 +95,7 @@ func _init_config()->void:
 func save_config()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
 	match err:
-		1:
+		0:
 			pass
 		32:
 			pass
@@ -127,7 +127,7 @@ func _load_settings()->void:
 func save_settings()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
 	match err:
-		1:
+		0:
 			pass
 		32:
 			pass
@@ -285,7 +285,7 @@ func _on_save_pressed() -> void:
 	
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/saved_configs")
 	match err:
-		1:
+		0:
 			pass
 		32:
 			pass
@@ -308,7 +308,7 @@ func _on_backup_pressed() -> void:
 	
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
 	match err:
-		1:
+		0:
 			pass
 		32:
 			pass
