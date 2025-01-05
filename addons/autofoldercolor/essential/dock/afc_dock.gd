@@ -228,8 +228,9 @@ func _on_apply_pressed() -> void:
 		if !answer:return
 	
 	var _dict:={}
-	var file_colors:Dictionary = ProjectSettings.get_setting("file_customization/folder_colors")
-	if file_colors == null: file_colors = {}
+	var file_colors:={}
+	if ProjectSettings.get_setting("file_customization/folder_colors"):
+		file_colors = ProjectSettings.get_setting("file_customization/folder_colors")
 	
 	_set_colors_recursive("res://",_dict)
 	
@@ -276,13 +277,6 @@ func _on_load_pressed() -> void:
 	save_config()
 	%LoadMenu.visible = false
 func _on_save_pressed() -> void:
-	%SaveMenu.visible = true
-	var is_selected:bool = await %SaveMenu.selected
-	if !is_selected:return
-	
-	var folder:String =  %SaveMenu.FOLDER
-	var file_name:String = %SaveMenu.edit.text
-	
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/saved_configs")
 	match err:
 		0:
@@ -291,21 +285,20 @@ func _on_save_pressed() -> void:
 			pass
 		_:
 			print("Unexpected error when saving: "+error_string(err))
+	
+	%SaveMenu.visible = true
+	var is_selected:bool = await %SaveMenu.selected
+	if !is_selected:return
+	
+	var folder:String =  %SaveMenu.FOLDER
+	var file_name:String = %SaveMenu.edit.text
+	
 	ResourceSaver.save(config,"res://addons/autofoldercolor/save_data/saved_configs/%s.tres"%[file_name])
 	
 	%SaveMenu.visible = false
 
 ## Backs up / Restores the currently set FileSystem colors
 func _on_backup_pressed() -> void:
-	%BackupMenu.visible = true
-	var is_selected:bool = await %BackupMenu.selected
-	if !is_selected:return
-	
-	var folder:String =  %BackupMenu.FOLDER
-	var file_name:String = %BackupMenu.edit.text
-	var backup_res := AFCBackup.new()
-	
-	
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
 	match err:
 		0:
@@ -314,6 +307,15 @@ func _on_backup_pressed() -> void:
 			pass
 		_:
 			print("Unexpected error when saving: "+error_string(err))
+	
+	%BackupMenu.visible = true
+	var is_selected:bool = await %BackupMenu.selected
+	if !is_selected:return
+	
+	var folder:String =  %BackupMenu.FOLDER
+	var file_name:String = %BackupMenu.edit.text
+	var backup_res := AFCBackup.new()
+	
 	backup_res.folder_colors = ProjectSettings.get_setting("file_customization/folder_colors")
 	ResourceSaver.save(backup_res,"res://addons/autofoldercolor/save_data/backups/%s.tres"%[file_name])
 	
