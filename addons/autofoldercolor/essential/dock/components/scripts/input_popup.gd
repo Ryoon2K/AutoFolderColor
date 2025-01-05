@@ -27,7 +27,7 @@ func _on_visibility_changed() -> void:
 		position = DisplayServer.mouse_get_position()
 
 func _on_text_changed(new_text:String) -> void:
-	var regex := RegEx.create_from_string("([a-zA-Z0-9_-])")
+	var regex := RegEx.create_from_string("([a-zA-Z0-9_\\-,.])")
 	var matches := regex.search_all(new_text)
 	var correct_text:=""
 	var pos = edit.caret_column + matches.size() - new_text.length()
