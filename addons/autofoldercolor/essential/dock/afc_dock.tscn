@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://c7imsi34c3t8f"]
+[gd_scene load_steps=29 format=3 uid="uid://c7imsi34c3t8f"]
 
 [ext_resource type="Script" path="res://addons/autofoldercolor/essential/dock/afc_dock.gd" id="1_yutg1"]
 [ext_resource type="Texture2D" uid="uid://w10d12mkg8mt" path="res://addons/autofoldercolor/essential/dock/icons/settings_wrench.png" id="2_abtwb"]
@@ -152,6 +152,9 @@ border_color = Color(0.188235, 0.188235, 0.188235, 1)
 color = Color(0.187722, 0.187722, 0.187722, 1)
 thickness = 3
 vertical = true
+
+[sub_resource type="SystemFont" id="SystemFont_sjoms"]
+font_weight = 700
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_yj4bt"]
 color = Color(0.187722, 0.187722, 0.187722, 1)
@@ -443,6 +446,27 @@ layout_mode = 2
 theme_override_constants/separation = 5
 theme_override_styles/separator = SubResource("StyleBoxLine_2y3ip")
 
+[node name="CKCaps" type="Button" parent="Margin/Main/Contains/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+tooltip_text = "Enable/Disable caps sensitive search."
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.404229, 0.778335, 0.358455, 1)
+theme_override_colors/font_color = Color(0.839433, 0.232018, 0.232018, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = SubResource("SystemFont_sjoms")
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+text = "CS"
+flat = true
+
+[node name="VSeparator3" type="VSeparator" parent="Margin/Main/Contains/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxLine_2y3ip")
+
 [node name="CKButton" type="Button" parent="Margin/Main/Contains/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
 unique_name_in_owner = true
 texture_filter = 1
@@ -556,6 +580,27 @@ theme_override_colors/font_outline_color = Color(0.80549, 0.80549, 0.80549, 1)
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 20
 text = "Exact keyword"
+
+[node name="VSeparator3" type="VSeparator" parent="Margin/Main/Exact/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxLine_2y3ip")
+
+[node name="EKCaps" type="Button" parent="Margin/Main/Exact/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+tooltip_text = "Enable/Disable caps sensitive search."
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.404229, 0.778335, 0.358455, 1)
+theme_override_colors/font_color = Color(0.839433, 0.232018, 0.232018, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = SubResource("SystemFont_sjoms")
+theme_override_font_sizes/font_size = 17
+toggle_mode = true
+text = "CS"
+flat = true
 
 [node name="VSeparator" type="VSeparator" parent="Margin/Main/Exact/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
 layout_mode = 2

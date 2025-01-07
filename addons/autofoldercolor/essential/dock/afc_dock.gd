@@ -26,6 +26,8 @@ func _ready() -> void:
 	%CKButton.connect("pressed",_on_ck_button_pressed)
 	%EK_Clear.connect("pressed",_on_ek_clear_button_pressed)
 	%CK_Clear.connect("pressed",_on_ck_clear_button_pressed)
+	%EKCaps.connect("toggled",_on_ek_caps_toggled)
+	%CKCaps.connect("toggled",_on_ck_caps_toggled)
 	
 	%Apply.connect("pressed",_on_apply_pressed)
 	%Auto.connect("toggled",_on_auto_toggled)
@@ -81,6 +83,8 @@ func _init_config()->void:
 		selection_node.item_updated.connect(_on_item_updated)
 		
 		%EK_VBox.add_child(selection_node)
+	%EKCaps.set_pressed_no_signal(config.ExactCS)
+	
 	for item in config.Contains:
 		var selection_node:AFCSelectionItem = selection_scene.instantiate()
 		selection_node.data = item
@@ -91,6 +95,7 @@ func _init_config()->void:
 		selection_node.item_updated.connect(_on_item_updated)
 		
 		%CK_VBox.add_child(selection_node)
+	%CKCaps.set_pressed_no_signal(config.ContainsCS)
 ## Saves the current config to the afc_folder path
 func save_config()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
@@ -349,6 +354,15 @@ func _on_clear_pressed() -> void:
 	
 	ProjectSettings.set_setting("file_customization/folder_colors",{})
 	ProjectSettings.save()
+
+func _on_ck_caps_toggled(on:bool)->void:
+	config.ContainsCS = on
+	save_config()
+
+func _on_ek_caps_toggled(on:bool)->void:
+	config.ExactCS = on
+	save_config()
+
 #endregion
 
 ## Whenever a list item gets update it checks for duplicates

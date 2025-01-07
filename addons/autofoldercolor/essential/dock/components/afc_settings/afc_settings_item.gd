@@ -17,8 +17,8 @@ func _ready() -> void:
 
 func _init_color()->void:
 	if get_parent().get_children().find(self)%2:
-		%ColorRect.color = Color("#363636")
-	else: %ColorRect.color = Color("#242424")
+		%ColorRect.color = Color("#454545")
+	else: %ColorRect.color = Color("#383838")
 
 func _init_text()->void:
 	var _text := property_name
