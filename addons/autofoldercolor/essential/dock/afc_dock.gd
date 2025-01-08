@@ -385,10 +385,19 @@ func _set_colors_recursive(path:String,_dict:Dictionary):
 	
 	for item in folders:
 		for c in contains.keys():
-			if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
+		## Checks if the Caps Sensitive is on
+			if config.ContainsCS:
+				if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
+			else:
+				if item.to_lower().find(c.to_lower()) != -1:_dict["%s%s/"%[path,item]] = contains[c]
+	
 	for item in folders:
 		for e in exact.keys():
-			if item == e: _dict["%s%s/"%[path,item]] = exact[e]
+			## Checks if the Caps Sensitive is on
+			if config.ExactCS:
+				if item == e: _dict["%s%s/"%[path,item]] = exact[e]
+			else:
+				if item.to_lower() == e.to_lower(): _dict["%s%s/"%[path,item]] = exact[e]
 	
 	for folder in folders:
 		_set_colors_recursive("%s%s/"%[path,folder],_dict)

@@ -155,6 +155,7 @@ vertical = true
 
 [sub_resource type="SystemFont" id="SystemFont_sjoms"]
 font_weight = 700
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_yj4bt"]
 color = Color(0.187722, 0.187722, 0.187722, 1)
@@ -599,6 +600,7 @@ theme_override_constants/outline_size = 8
 theme_override_fonts/font = SubResource("SystemFont_sjoms")
 theme_override_font_sizes/font_size = 17
 toggle_mode = true
+button_pressed = true
 text = "CS"
 flat = true
 
@@ -691,6 +693,7 @@ unique_name_in_owner = true
 position = Vector2i(335, 446)
 FOLDER = "res://addons/autofoldercolor/save_data/saved_configs/"
 boolean_text = "This will overwrite all of your current keywords."
+show_warning = false
 
 [node name="SaveMenu" parent="Popups" instance=ExtResource("5_82nrk")]
 unique_name_in_owner = true
