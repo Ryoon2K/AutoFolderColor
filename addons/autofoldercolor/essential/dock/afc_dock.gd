@@ -31,11 +31,17 @@ func _ready() -> void:
 	
 	%Apply.connect("pressed",_on_apply_pressed)
 	%Auto.connect("toggled",_on_auto_toggled)
-	%Load.connect("pressed",_on_load_pressed)
-	%Save.connect("pressed",_on_save_pressed)
-	%Backup.connect("pressed",_on_backup_pressed)
-	%Restore.connect("pressed",_on_restore_pressed)
-	%Clear.connect("pressed",_on_clear_pressed)
+	
+	%ColorsMenu.get_popup().connect("id_pressed",_on_colors_menu_button_pressed)
+	%ConfigMenu.get_popup().connect("id_pressed",_on_config_menu_button_pressed)
+	
+	
+	#%Load.connect("pressed",_on_load_pressed)
+	#%Save.connect("pressed",_on_save_pressed)
+	#%Backup.connect("pressed",_on_backup_pressed)
+	#%Restore.connect("pressed",_on_restore_pressed)
+	#%Clear.connect("pressed",_on_clear_pressed)
+	
 	%SettingsButton.pressed.connect(func()->void:%SettingsWindow.visible = true)
 	#endregion
 	
@@ -258,6 +264,12 @@ func _on_auto_toggled(on:bool) -> void:
 	
 	pass
 
+## Detect which Configuration Menu button was pressed
+func _on_config_menu_button_pressed(id:int)->void:
+	match id:
+		0: _on_load_pressed()
+		1: _on_save_pressed()
+
 ## Loads / Saves the currently set lists as a configuration
 func _on_load_pressed() -> void:
 	%LoadMenu.visible = true
@@ -302,7 +314,15 @@ func _on_save_pressed() -> void:
 	
 	%SaveMenu.visible = false
 
+## Detect which Colors Menu button was pressed
+func _on_colors_menu_button_pressed(id:int)->void:
+	match id:
+		0: _on_backup_pressed()
+		1: _on_restore_pressed()
+		2: _on_clear_pressed()
+
 ## Backs up / Restores the currently set FileSystem colors
+
 func _on_backup_pressed() -> void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
 	match err:

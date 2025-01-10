@@ -219,6 +219,9 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 5
 
+[node name="MenuBar" type="MenuBar" parent="Margin/Main/ActionButtons/Margin"]
+layout_mode = 2
+
 [node name="Buttons" type="HBoxContainer" parent="Margin/Main/ActionButtons/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -272,6 +275,7 @@ theme_override_constants/separation = 3
 
 [node name="Load" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/ConfigButtons"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -288,6 +292,7 @@ text = "Load"
 
 [node name="Save" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/ConfigButtons"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -302,6 +307,18 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_50eyw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5fb17")
 text = "Save"
 
+[node name="ConfigMenu" type="MenuButton" parent="Margin/Main/ActionButtons/Margin/Buttons/ConfigButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_5fb17")
+text = " Configuration "
+flat = false
+item_count = 2
+popup/item_0/text = "Load"
+popup/item_1/text = "Save"
+popup/item_1/id = 1
+
 [node name="VSeparator2" type="VSeparator" parent="Margin/Main/ActionButtons/Margin/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -311,8 +328,23 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_opf2u")
 layout_mode = 2
 theme_override_constants/separation = 5
 
+[node name="ColorsMenu" type="MenuButton" parent="Margin/Main/ActionButtons/Margin/Buttons/FileColorButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_5fb17")
+text = " Colors "
+flat = false
+item_count = 3
+popup/item_0/text = "Backup"
+popup/item_1/text = "Restore"
+popup/item_1/id = 1
+popup/item_2/text = "Clear"
+popup/item_2/id = 2
+
 [node name="Backup" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/FileColorButtons"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -329,6 +361,7 @@ text = "Backup"
 
 [node name="Restore" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/FileColorButtons"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -345,6 +378,7 @@ text = "Restore"
 
 [node name="Clear" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/FileColorButtons"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -357,6 +391,9 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ltt02")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_50eyw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_x5hd2")
 text = "Clear"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/Main/ActionButtons/Margin/Buttons/FileColorButtons"]
+layout_mode = 2
 
 [node name="VSeparator3" type="VSeparator" parent="Margin/Main/ActionButtons/Margin/Buttons"]
 layout_mode = 2
@@ -440,7 +477,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.80549, 0.80549, 0.80549, 1)
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 20
-text = "Contains keyword"
+text = "Contains keywords"
 
 [node name="VSeparator" type="VSeparator" parent="Margin/Main/Contains/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
 layout_mode = 2
@@ -460,6 +497,7 @@ theme_override_constants/outline_size = 8
 theme_override_fonts/font = SubResource("SystemFont_sjoms")
 theme_override_font_sizes/font_size = 17
 toggle_mode = true
+button_pressed = true
 text = "CS"
 flat = true
 
@@ -580,7 +618,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.80549, 0.80549, 0.80549, 1)
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 20
-text = "Exact keyword"
+text = "Exact keywords"
 
 [node name="VSeparator3" type="VSeparator" parent="Margin/Main/Exact/Margin/VBoxContainer/Panel/TitleMargin/HBoxContainer"]
 layout_mode = 2

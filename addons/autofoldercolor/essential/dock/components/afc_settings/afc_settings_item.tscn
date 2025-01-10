@@ -24,7 +24,7 @@ script = ExtResource("1_3qm2r")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-color = Color(0.141176, 0.141176, 0.141176, 1)
+color = Color(0.219608, 0.219608, 0.219608, 1)
 
 [node name="HBox" type="HBoxContainer" parent="ColorRect"]
 layout_mode = 1
