@@ -31,13 +31,10 @@ func _init_text()->void:
 	label.text = _text
 
 func update() -> void:
-	var sep_theme:StyleBoxLine = $HSeparator.get("theme_override_styles/separator")
 	if AFCDock.settings.get(property_name):
 		check_box.set_pressed_no_signal(true)
-		sep_theme.color.h = 0.59
 	else:
 		check_box.set_pressed_no_signal(false)
-		sep_theme.color.h = 0
 
 func _change_setting(on:bool) -> void:
 	AFCDock.settings.set(property_name,on)

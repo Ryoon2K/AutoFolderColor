@@ -262,6 +262,27 @@ func _on_apply_pressed() -> void:
 func _on_auto_toggled(on:bool) -> void:
 	%AutoPopup.visible = true
 	
+	if on:
+		
+		EditorInterface.get_file_system_dock().connect("folder_moved",test_folder_moved)
+		EditorInterface.get_file_system_dock().connect("folder_removed",test_folder_removed)
+		
+		
+		
+		pass
+	else:
+		pass
+	
+	
+	pass
+
+
+func test_folder_moved(old_folder: String, new_folder: String)->void:
+	printt(old_folder,new_folder)
+	pass
+
+func test_folder_removed(folder: String)->void:
+	printt(folder)
 	pass
 
 ## Detect which Configuration Menu button was pressed
