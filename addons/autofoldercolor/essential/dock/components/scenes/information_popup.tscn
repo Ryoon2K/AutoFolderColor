@@ -37,7 +37,7 @@ multichannel_signed_distance_field = true
 [node name="InfoPopup" type="Window"]
 auto_translate_mode = 1
 title = "Information Popup"
-position = Vector2i(701, 45)
+position = Vector2i(284, 292)
 size = Vector2i(250, 150)
 transient = true
 exclusive = true

@@ -8,6 +8,7 @@ var file_format_regx := RegEx.create_from_string(r"(\.[a-zA-Z0-1]+)$")
 static var instance:AFCDock
 static var config:AFCConfig
 static var settings:AFCSettings
+static var file_system_dock:FileSystemDock
 
 var afc_folder:String
 var selection_scene := preload("components/scenes/afc_selection.tscn")
@@ -20,6 +21,8 @@ var contains_arr:= []
 
 func _ready() -> void:
 	instance = self
+	
+	file_system_dock = EditorInterface.get_file_system_dock()
 	
 	#region Button Connection
 	%EKButton.connect("pressed",_on_ek_button_pressed)
@@ -102,6 +105,13 @@ func _init_config()->void:
 		
 		%CK_VBox.add_child(selection_node)
 	%CKCaps.set_pressed_no_signal(config.ContainsCS)
+	
+	var dd_array:Array
+	recur_get_dir_dialog(file_system_dock,dd_array)
+	
+	if config.AutoEnabled: dd_array[1].connect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
+	%Auto.set_pressed_no_signal(config.AutoEnabled)
+	
 ## Saves the current config to the afc_folder path
 func save_config()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
@@ -238,6 +248,11 @@ func _on_apply_pressed() -> void:
 		
 		if !answer:return
 	
+	_change_colors()
+	
+
+## This is the main function for changing colors using the keywords
+func _change_colors()->void:
 	var _dict:={}
 	var file_colors:={}
 	if ProjectSettings.get_setting("file_customization/folder_colors"):
@@ -256,34 +271,46 @@ func _on_apply_pressed() -> void:
 	
 	if settings.show_apply_info_panel:
 		%InfoPopup.visible = true
+
 ## This method currently does nothing. [br]
 ## This method will connect/disconnect signals from the FileSystem [br]
-## It will call the previous method whenever a file changes or gets added
+## It will call the previous method whenever a folder supposedly gets added
 func _on_auto_toggled(on:bool) -> void:
-	%AutoPopup.visible = true
+	if settings.show_turn_on_auto_warning:
+		if on:
+			%AutoPopup.label.text = "The addon will now detect when a file has been created and change all folder colors."
+		else:
+			%AutoPopup.label.text = "You will now have to manually click to apply the configuration."
+		%AutoPopup.visible = true
+		var answer:bool = await %ApplyPopup.selected
+			
+		if !answer:return
 	
-	if on:
-		
-		EditorInterface.get_file_system_dock().connect("folder_moved",test_folder_moved)
-		EditorInterface.get_file_system_dock().connect("folder_removed",test_folder_removed)
-		
-		
-		
-		pass
+	var dd_array:Array
+	recur_get_dir_dialog(file_system_dock,dd_array)
+	
+	if on and !dd_array[1].is_connected("visibility_changed",_on_dir_cr_dialog_visiblity_changed):
+		dd_array[1].connect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
+	elif !on and dd_array[1].is_connected("visibility_changed",_on_dir_cr_dialog_visiblity_changed):
+		dd_array[1].disconnect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
+	
+	config.AutoEnabled = on
+	save_config()
+
+## Makes sure the Dialog went invisible before calling the change colors function
+func _on_dir_cr_dialog_visiblity_changed()->void:
+	var dd_array:Array
+	recur_get_dir_dialog(file_system_dock,dd_array)
+	if !dd_array[1].visible:
+		await get_tree().process_frame
+		_change_colors()
+
+## Gets all of the Directory Create Dialog objects and puts them in the array
+func recur_get_dir_dialog(object:Variant,array:Array)->void:
+	if object.get_class() == "DirectoryCreateDialog": array.append(object)
+	
 	else:
-		pass
-	
-	
-	pass
-
-
-func test_folder_moved(old_folder: String, new_folder: String)->void:
-	printt(old_folder,new_folder)
-	pass
-
-func test_folder_removed(folder: String)->void:
-	printt(folder)
-	pass
+		for child in object.get_children():recur_get_dir_dialog(child,array)
 
 ## Detect which Configuration Menu button was pressed
 func _on_config_menu_button_pressed(id:int)->void:

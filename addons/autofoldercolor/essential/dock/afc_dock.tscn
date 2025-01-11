@@ -248,7 +248,6 @@ text = "Apply"
 
 [node name="Auto" type="Button" parent="Margin/Main/ActionButtons/Margin/Buttons/ApplyButtons"]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -262,6 +261,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ltt02")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4p5of")
 theme_override_styles/normal = SubResource("StyleBoxFlat_2ys8u")
 toggle_mode = true
+button_pressed = true
 text = "Auto"
 
 [node name="VSeparator" type="VSeparator" parent="Margin/Main/ActionButtons/Margin/Buttons"]
@@ -507,7 +507,6 @@ theme_override_constants/outline_size = 8
 theme_override_fonts/font = SubResource("SystemFont_sjoms")
 theme_override_font_sizes/font_size = 17
 toggle_mode = true
-button_pressed = true
 text = "CS"
 flat = true
 
@@ -726,9 +725,9 @@ unique_name_in_owner = true
 position = Vector2i(400, 523)
 visible = false
 
-[node name="AutoPopup" parent="Popups" instance=ExtResource("6_175fn")]
+[node name="AutoPopup" parent="Popups" instance=ExtResource("7_csjkx")]
 unique_name_in_owner = true
-position = Vector2i(400, 523)
+position = Vector2i(418, 380)
 visible = false
 
 [node name="InfoPopup" parent="Popups" instance=ExtResource("7_csjkx")]

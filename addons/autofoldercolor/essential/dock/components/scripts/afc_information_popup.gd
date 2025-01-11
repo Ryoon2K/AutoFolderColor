@@ -2,12 +2,13 @@
 extends Window
 
 var settings_property:String
-
+var label:Label
 
 func _ready() -> void:
 	%Ok.connect("pressed",_on_ok_pressed)
 	connect("visibility_changed",_on_visibility_changed)
 	connect("close_requested",_on_ok_pressed)
+	label = %Information
 
 func _on_visibility_changed() -> void:
 	if visible:
