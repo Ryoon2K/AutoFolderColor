@@ -38,13 +38,6 @@ func _ready() -> void:
 	%ColorsMenu.get_popup().connect("id_pressed",_on_colors_menu_button_pressed)
 	%ConfigMenu.get_popup().connect("id_pressed",_on_config_menu_button_pressed)
 	
-	
-	#%Load.connect("pressed",_on_load_pressed)
-	#%Save.connect("pressed",_on_save_pressed)
-	#%Backup.connect("pressed",_on_backup_pressed)
-	#%Restore.connect("pressed",_on_restore_pressed)
-	#%Clear.connect("pressed",_on_clear_pressed)
-	
 	%SettingsButton.pressed.connect(func()->void:%SettingsWindow.visible = true)
 	#endregion
 	
