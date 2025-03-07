@@ -16,9 +16,6 @@ var selection_scene := preload("components/scenes/afc_selection.tscn")
 var exact:= {}
 var contains:= {}
 
-var exact_arr:= []
-var contains_arr:= []
-
 func _ready() -> void:
 	instance = self
 	
@@ -57,7 +54,7 @@ func _config_load()->void:
 	else:
 		config = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
 ## This is used to fix an AFC config if it loads with Read_Only arrays.
-## It happens if a array is saved empty. Makes the Array functionally useless.
+## It happens if a array is saved empty. Makes the Array functionally useless if it is Read_Only.
 func _read_only_fix(afc_config:AFCConfig)->AFCConfig:
 # Checks if either array is read only.
 	if afc_config.Contains.is_read_only() or afc_config.Exact.is_read_only():
@@ -79,7 +76,6 @@ func _init_config()->void:
 		var selection_node:AFCSelectionItem = selection_scene.instantiate()
 		selection_node.data = item
 		selection_node.dict = exact
-		selection_node.arr_check = exact_arr
 		
 		selection_node.item_deleted.connect(_on_item_updated)
 		selection_node.item_updated.connect(_on_item_updated)
@@ -91,7 +87,6 @@ func _init_config()->void:
 		var selection_node:AFCSelectionItem = selection_scene.instantiate()
 		selection_node.data = item
 		selection_node.dict = contains
-		selection_node.arr_check = contains_arr
 		
 		selection_node.item_deleted.connect(_on_item_updated)
 		selection_node.item_updated.connect(_on_item_updated)
@@ -104,7 +99,7 @@ func _init_config()->void:
 	
 	if config.AutoEnabled: dd_array[1].connect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
 	%Auto.set_pressed_no_signal(config.AutoEnabled)
-	
+
 ## Saves the current config to the afc_folder path
 func save_config()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
@@ -186,7 +181,6 @@ func _on_ek_button_pressed()->void:
 	config.Exact.append(afc_data)
 	selection_node.data = afc_data
 	selection_node.dict = exact
-	selection_node.arr_check = exact_arr
 	
 	selection_node.item_deleted.connect(_on_item_updated)
 	selection_node.item_updated.connect(_on_item_updated)
@@ -200,7 +194,6 @@ func _on_ck_button_pressed()->void:
 	config.Contains.append(afc_data)
 	selection_node.data = afc_data
 	selection_node.dict = contains
-	selection_node.arr_check = contains_arr
 	
 	selection_node.item_deleted.connect(_on_item_updated)
 	selection_node.item_updated.connect(_on_item_updated)
@@ -242,7 +235,6 @@ func _on_apply_pressed() -> void:
 		if !answer:return
 	
 	_change_colors()
-	
 
 ## This is the main function for changing colors using the keywords
 func _change_colors()->void:
@@ -265,9 +257,55 @@ func _change_colors()->void:
 	if settings.show_apply_info_panel:
 		%InfoPopup.visible = true
 
-## This method currently does nothing. [br]
+## Change color when a folder gets renamed
+func _auto_folder_moved(old_path:String,new_path:String)->void:
+	if !ProjectSettings.get_setting("file_customization/folder_colors"):
+		_change_colors()
+		return
+	
+	await get_tree().process_frame
+	
+	var file_colors:Dictionary = ProjectSettings.get_setting("file_customization/folder_colors")
+	
+	if new_path.right(-(new_path.rfind("/")+1)) == old_path.right(-(old_path.rfind("/")+1)):
+		print("stopped early")
+		return
+	
+	var new_color:String = ""
+	var file_name:String = new_path.right(-(new_path.rfind("/")+1))
+	
+	for c in contains.keys():
+		## Checks if the Caps Sensitive is on
+		if config.ContainsCS:
+			if file_name == c: new_color = contains[c]
+		else:
+			if file_name.to_lower() == c.to_lower(): new_color = contains[c]
+	
+	for e in exact.keys():
+		## Checks if the Caps Sensitive is on
+		if config.ExactCS:
+			if file_name == e: new_color = contains[e]
+		else:
+			if file_name.to_lower() == e.to_lower(): new_color = exact[e]
+	
+	if new_color == "":
+		file_colors.erase(new_path+"/")
+	else:
+		file_colors[new_path+"/"] = new_color
+	
+	ProjectSettings.set_setting("file_customization/folder_colors",file_colors)
+	ProjectSettings.save()
+	
+
+## a check for when a folder gets deleted, mostly for a one-off reason
+func _auto_folder_removed(path:String)->void:
+	if !ProjectSettings.get_setting("file_customization/folder_colors"):
+		_change_colors()
+		return
+
 ## This method will connect/disconnect signals from the FileSystem [br]
-## It will call the previous method whenever a folder supposedly gets added
+## It will call the previous method whenever a folder supposedly gets added.
+## It detects when the screen for creating a new folder becomes invisible.
 func _on_auto_toggled(on:bool) -> void:
 	if settings.show_turn_on_auto_warning:
 		if on:
@@ -286,6 +324,12 @@ func _on_auto_toggled(on:bool) -> void:
 		dd_array[1].connect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
 	elif !on and dd_array[1].is_connected("visibility_changed",_on_dir_cr_dialog_visiblity_changed):
 		dd_array[1].disconnect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
+	
+	if on and !file_system_dock.folder_moved.is_connected(_auto_folder_moved):
+		file_system_dock.folder_moved.connect(_auto_folder_moved)
+	elif !on and file_system_dock.folder_moved.is_connected(_auto_folder_moved):
+		file_system_dock.folder_moved.disconnect(_auto_folder_moved)
+	
 	
 	config.AutoEnabled = on
 	save_config()
@@ -311,7 +355,7 @@ func _on_config_menu_button_pressed(id:int)->void:
 		0: _on_load_pressed()
 		1: _on_save_pressed()
 
-## Loads / Saves the currently set lists as a configuration
+## Loads / Saves the currently set keywords as a configuration
 func _on_load_pressed() -> void:
 	%LoadMenu.visible = true
 	
@@ -363,7 +407,6 @@ func _on_colors_menu_button_pressed(id:int)->void:
 		2: _on_clear_pressed()
 
 ## Backs up / Restores the currently set FileSystem colors
-
 func _on_backup_pressed() -> void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
 	match err:
@@ -416,10 +459,10 @@ func _on_clear_pressed() -> void:
 	ProjectSettings.set_setting("file_customization/folder_colors",{})
 	ProjectSettings.save()
 
+## Turns On/Off caps sensitive search for CK and EK lists separately.
 func _on_ck_caps_toggled(on:bool)->void:
 	config.ContainsCS = on
 	save_config()
-
 func _on_ek_caps_toggled(on:bool)->void:
 	config.ExactCS = on
 	save_config()

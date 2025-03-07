@@ -9,8 +9,6 @@ signal item_updated
 
 @export var data:AFCSelectionData
 
-var arr_check:=[]
-
 var dict:={}
 var is_blocked:bool = false
 var old_keyword:String
@@ -64,11 +62,8 @@ func _on_init() -> void:
 	else:data.color = OB.get_item_text(OB.selected).to_lower()
 	edit.text = data.keyword
 	
-	if arr_check.has(data.keyword):_set_blocked(true)
+	has_duplicate()
 	
-	if!is_blocked:
-		arr_check.append(data.keyword)
-		dict[data.keyword] = data.color
 # TODO: ADD REGEX FOR CHARACTERS
 func _on_text_changed(new_text:String) -> void:
 	var old_keyword:String = data.keyword

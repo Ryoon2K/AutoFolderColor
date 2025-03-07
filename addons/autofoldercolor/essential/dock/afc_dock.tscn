@@ -640,6 +640,7 @@ unique_name_in_owner = true
 position = Vector2i(335, 446)
 FOLDER = "res://addons/autofoldercolor/save_data/saved_configs/"
 boolean_text = "This will overwrite all of your current keywords."
+show_warning = false
 
 [node name="SaveMenu" parent="Popups" instance=ExtResource("5_82nrk")]
 unique_name_in_owner = true
