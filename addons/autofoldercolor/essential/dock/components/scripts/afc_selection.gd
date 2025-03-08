@@ -22,6 +22,7 @@ func _ready() -> void:
 	$LineEdit.connect("text_changed",_on_text_changed)
 	$OptionButton.connect("item_selected",_on_item_selected)
 
+# Initalizes the option button
 func _init_ob() -> void:
 	OB.clear()
 	var texture:= GradientTexture2D.new()
@@ -63,27 +64,43 @@ func _on_init() -> void:
 	edit.text = data.keyword
 	
 	has_duplicate()
-	
-# TODO: ADD REGEX FOR CHARACTERS
+
+## Gets called when the text changes
 func _on_text_changed(new_text:String) -> void:
+	# This regex checks for characters illegal in folder names and removes them.
+	# Then it moves the caret to the correct position.
+	var matches := AFC.char_regex.search_all(new_text)
+	var pos = edit.caret_column - matches.size()
+	
+	for reg in matches:
+		if !reg.strings.is_empty():
+			new_text = new_text.erase(new_text.find(reg.get_string()))
+	edit.text = new_text
+	
+	edit.caret_column = pos
+	
+	# Gets the previous keyword and checks if it is the same
 	var old_keyword:String = data.keyword
+	if old_keyword == new_text:return
+	
 	data.keyword = new_text
 	dict.erase(old_keyword)
 	
+	# Calls the function to check if there is a duplicate keyword already present
 	has_duplicate()
+	# If it isn't blocked and the keyword isn't null, it sets the color value to the new keyword
 	if !is_blocked:
 		if data.keyword:dict[data.keyword] = data.color
 	item_updated.emit()
 
+## Gets called when a color was selected from the menu
 func _on_item_selected(idx:int) -> void:
 	var color:String = OB.get_item_text(idx).to_lower()
 	data.color = color
 	if !is_blocked and data.keyword != "": dict[data.keyword] = color
 	item_updated.emit()
 
-# TODO: IT DOESN'T DELETE FROM THE CONFIG
-#		* WHEN SAVING AND RELOADING IT LOADS THE PREVIOUS CONFIG
-#		WITH THE DELETED ITEMS
+# Properly deletes the keyword from the config and erases from the dictionary before queueing free
 func delete() -> void:
 	if AFCDock.config.Exact.has(data):AFCDock.config.Exact.erase(data)
 	if AFCDock.config.Contains.has(data):AFCDock.config.Contains.erase(data)
@@ -93,6 +110,7 @@ func delete() -> void:
 	
 	queue_free()
 
+# Checks if there is a duplicate keyword already in the list and blocks the currently edited one
 func has_duplicate() -> bool:
 	if dict.keys().has(data.keyword):
 		_set_blocked(true)
@@ -102,6 +120,7 @@ func has_duplicate() -> bool:
 	if data.keyword:dict[data.keyword] = data.color
 	return false
 
+# Blocks/Unblocks the keyword
 func _set_blocked(val:bool) -> void:
 	is_blocked = val
 	

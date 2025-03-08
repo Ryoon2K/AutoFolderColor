@@ -16,6 +16,8 @@ static var colors:Array[String] = [
 
 static var afc_dock
 
+static var char_regex = RegEx.create_from_string(r"[\\\/:*?\"<>|]")
+
 func _enter_tree() -> void:
 	afc_dock = preload("essential/dock/afc_dock.tscn").instantiate()
 	add_control_to_dock(EditorPlugin.DOCK_SLOT_LEFT_BR,afc_dock)

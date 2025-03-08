@@ -43,18 +43,18 @@ func _ready() -> void:
 	_config_load()
 	config = _read_only_fix(config)
 	_init_config()
-	_init_settings()
-	%SettingsWindow.init_items()
+	await _init_settings()
+	await %SettingsWindow.init_items()
 
-## Loads the main configuration resource
+# Loads the main configuration resource
 func _config_load()->void:
 	if !FileAccess.file_exists("%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"]):
 		config = AFCConfig.new()
 		save_config()
 	else:
 		config = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
-## This is used to fix an AFC config if it loads with Read_Only arrays.
-## It happens if a array is saved empty. Makes the Array functionally useless if it is Read_Only.
+# This is used to fix an AFC config if it loads with Read_Only arrays.
+# It happens if a array is saved empty. Makes the Array functionally useless if it is Read_Only.
 func _read_only_fix(afc_config:AFCConfig)->AFCConfig:
 # Checks if either array is read only.
 	if afc_config.Contains.is_read_only() or afc_config.Exact.is_read_only():
@@ -70,7 +70,7 @@ func _read_only_fix(afc_config:AFCConfig)->AFCConfig:
 				afc_config.Exact.append(item)
 				
 	return afc_config
-## Initializes the config by populating the dock with the loaded information.
+# Initializes the config by populating the dock with the loaded information.
 func _init_config()->void:
 	for item in config.Exact:
 		var selection_node:AFCSelectionItem = selection_scene.instantiate()
@@ -100,7 +100,7 @@ func _init_config()->void:
 	if config.AutoEnabled: dd_array[1].connect("visibility_changed",_on_dir_cr_dialog_visiblity_changed)
 	%Auto.set_pressed_no_signal(config.AutoEnabled)
 
-## Saves the current config to the afc_folder path
+# Saves the current config to the afc_folder path
 func save_config()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
 	match err:
@@ -111,7 +111,7 @@ func save_config()->void:
 		_:
 			print("Unexpected error when saving: "+error_string(err))
 	ResourceSaver.save(config,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_config.tres"])
-## Used to clear both lists when loading a configuration
+# Used to clear both lists when loading a configuration
 func _clear_keywords() -> void:
 	for item:AFCSelectionItem in %EK_VBox.get_children():
 		item.delete()
@@ -121,18 +121,18 @@ func _clear_keywords() -> void:
 	contains.clear()
 	exact.clear()
 
-## Initializes settings
+# Initializes settings
 func _init_settings()->void:
 	_load_settings()
 	apply_settings()
-## Loads settings
+# Loads settings
 func _load_settings()->void:
 	if !FileAccess.file_exists("%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"]):
 		settings = AFCSettings.new()
 		save_settings()
 	else:
 		settings = ResourceLoader.load("%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"],"",ResourceLoader.CACHE_MODE_IGNORE)
-## Saves settings
+# Saves settings
 func save_settings()->void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data")
 	match err:
@@ -144,7 +144,7 @@ func save_settings()->void:
 			print("Unexpected error when saving: "+error_string(err))
 	ResourceSaver.save(settings,"%s%s"%["res://addons/autofoldercolor/save_data/","afc_settings.tres"])
 	apply_settings()
-## Applies the updated settings
+# Applies the updated settings
 func apply_settings()->void:
 	update_settings_window.emit()
 	
@@ -173,7 +173,7 @@ func apply_settings()->void:
 				%AutoPopup.settings_property = prop.name
 
 #region Button Function
-## Adds a keyword item to the 'Exact' or 'Contains' list
+# Adds a keyword item to the 'Exact' or 'Contains' list
 func _on_ek_button_pressed()->void:
 	var selection_node:AFCSelectionItem = selection_scene.instantiate()
 	var afc_data = AFCSelectionData.new()
@@ -201,7 +201,7 @@ func _on_ck_button_pressed()->void:
 	%CK_VBox.add_child(selection_node)
 	save_config()
 
-## Clears all items from the 'Exact' or 'Contains' list
+# Clears all items from the 'Exact' or 'Contains' list
 func _on_ek_clear_button_pressed():
 	if settings.show_clear_exact_list_warning:
 		%ClearExactPopup.label.text = "Are you sure you want to clear every keyword in this list?"
@@ -225,7 +225,7 @@ func _on_ck_clear_button_pressed():
 		contains.clear()
 	save_config()
 
-## Applies the colors from the two lists
+# Applies the colors from the two lists
 func _on_apply_pressed() -> void:
 	if settings.show_apply_warning:
 		%ApplyPopup.label.text = "This will change the colors of your files.\nThis won't affect any other file that is not listed."
@@ -236,7 +236,7 @@ func _on_apply_pressed() -> void:
 	
 	_change_colors()
 
-## This is the main function for changing colors using the keywords
+# This is the main function for changing colors using the keywords
 func _change_colors()->void:
 	var _dict:={}
 	var file_colors:={}
@@ -257,7 +257,7 @@ func _change_colors()->void:
 	if settings.show_apply_info_panel:
 		%InfoPopup.visible = true
 
-## Change color when a folder gets renamed
+# Change color when a folder gets renamed
 func _auto_folder_moved(old_path:String,new_path:String)->void:
 	if !ProjectSettings.get_setting("file_customization/folder_colors"):
 		_change_colors()
@@ -275,14 +275,14 @@ func _auto_folder_moved(old_path:String,new_path:String)->void:
 	var file_name:String = new_path.right(-(new_path.rfind("/")+1))
 	
 	for c in contains.keys():
-		## Checks if the Caps Sensitive is on
+		# Checks if the Caps Sensitive is on
 		if config.ContainsCS:
-			if file_name == c: new_color = contains[c]
+			if file_name.find(c)!=-1: new_color = contains[c]
 		else:
-			if file_name.to_lower() == c.to_lower(): new_color = contains[c]
+			if file_name.to_lower().find(c.to_lower()) != -1: new_color = contains[c]
 	
 	for e in exact.keys():
-		## Checks if the Caps Sensitive is on
+		# Checks if the Caps Sensitive is on
 		if config.ExactCS:
 			if file_name == e: new_color = contains[e]
 		else:
@@ -297,15 +297,15 @@ func _auto_folder_moved(old_path:String,new_path:String)->void:
 	ProjectSettings.save()
 	
 
-## a check for when a folder gets deleted, mostly for a one-off reason
+# a check for when a folder gets deleted, mostly for a one-off reason
 func _auto_folder_removed(path:String)->void:
 	if !ProjectSettings.get_setting("file_customization/folder_colors"):
 		_change_colors()
 		return
 
-## This method will connect/disconnect signals from the FileSystem [br]
-## It will call the previous method whenever a folder supposedly gets added.
-## It detects when the screen for creating a new folder becomes invisible.
+# This method will connect/disconnect signals from the FileSystem [br]
+# It will call the previous method whenever a folder supposedly gets added.
+# It detects when the screen for creating a new folder becomes invisible.
 func _on_auto_toggled(on:bool) -> void:
 	if settings.show_turn_on_auto_warning:
 		if on:
@@ -334,7 +334,7 @@ func _on_auto_toggled(on:bool) -> void:
 	config.AutoEnabled = on
 	save_config()
 
-## Makes sure the Dialog went invisible before calling the change colors function
+# Makes sure the Dialog went invisible before calling the change colors function
 func _on_dir_cr_dialog_visiblity_changed()->void:
 	var dd_array:Array
 	recur_get_dir_dialog(file_system_dock,dd_array)
@@ -342,20 +342,20 @@ func _on_dir_cr_dialog_visiblity_changed()->void:
 		await get_tree().process_frame
 		_change_colors()
 
-## Gets all of the Directory Create Dialog objects and puts them in the array
+# Gets all of the Directory Create Dialog objects and puts them in the array
 func recur_get_dir_dialog(object:Variant,array:Array)->void:
 	if object.get_class() == "DirectoryCreateDialog": array.append(object)
 	
 	else:
 		for child in object.get_children():recur_get_dir_dialog(child,array)
 
-## Detect which Configuration Menu button was pressed
+# Detect which Configuration Menu button was pressed
 func _on_config_menu_button_pressed(id:int)->void:
 	match id:
 		0: _on_load_pressed()
 		1: _on_save_pressed()
 
-## Loads / Saves the currently set keywords as a configuration
+# Loads / Saves the currently set keywords as a configuration
 func _on_load_pressed() -> void:
 	%LoadMenu.visible = true
 	
@@ -399,14 +399,14 @@ func _on_save_pressed() -> void:
 	
 	%SaveMenu.visible = false
 
-## Detect which Colors Menu button was pressed
+# Detect which Colors Menu button was pressed
 func _on_colors_menu_button_pressed(id:int)->void:
 	match id:
 		0: _on_backup_pressed()
 		1: _on_restore_pressed()
 		2: _on_clear_pressed()
 
-## Backs up / Restores the currently set FileSystem colors
+# Backs up / Restores the currently set FileSystem colors
 func _on_backup_pressed() -> void:
 	var err:int = DirAccess.make_dir_absolute("res://addons/autofoldercolor/save_data/backups")
 	match err:
@@ -446,7 +446,7 @@ func _on_restore_pressed() -> void:
 	
 	%RestoreMenu.visible = false
 
-## Clears all currently set file colors
+# Clears all currently set file colors
 func _on_clear_pressed() -> void:
 	if settings.show_clear_colors_warning:
 		%ClearColorsPopup.label.text = "This will fully clear all current colors of your files.\nAre you sure?"
@@ -459,7 +459,7 @@ func _on_clear_pressed() -> void:
 	ProjectSettings.set_setting("file_customization/folder_colors",{})
 	ProjectSettings.save()
 
-## Turns On/Off caps sensitive search for CK and EK lists separately.
+# Turns On/Off caps sensitive search for CK and EK lists separately.
 func _on_ck_caps_toggled(on:bool)->void:
 	config.ContainsCS = on
 	save_config()
@@ -469,7 +469,7 @@ func _on_ek_caps_toggled(on:bool)->void:
 
 #endregion
 
-## Whenever a list item gets update it checks for duplicates
+# Whenever a list item gets update it checks for duplicates
 func _on_item_updated() -> void:
 	_items_duplicates_check()
 	save_config()
@@ -480,8 +480,8 @@ func _items_duplicates_check() -> void:
 		if item.is_blocked:item.has_duplicate()
 	pass
 
-## Recursively goes through every folder and checks if it fits the criteria.
-## Anything that fits the given criteria will be added to a dictionary.
+# Recursively goes through every folder and checks if it fits the criteria.
+# Anything that fits the given criteria will be added to a dictionary.
 func _set_colors_recursive(path:String,_dict:Dictionary):
 	var files:= DirAccess.get_files_at(path)
 	if files.has(".gdignore"):return[]
@@ -489,7 +489,7 @@ func _set_colors_recursive(path:String,_dict:Dictionary):
 	
 	for item in folders:
 		for c in contains.keys():
-		## Checks if the Caps Sensitive is on
+		# Checks if the Caps Sensitive is on
 			if config.ContainsCS:
 				if item.find(c) != -1:_dict["%s%s/"%[path,item]] = contains[c]
 			else:
@@ -497,7 +497,7 @@ func _set_colors_recursive(path:String,_dict:Dictionary):
 	
 	for item in folders:
 		for e in exact.keys():
-			## Checks if the Caps Sensitive is on
+			# Checks if the Caps Sensitive is on
 			if config.ExactCS:
 				if item == e: _dict["%s%s/"%[path,item]] = exact[e]
 			else:

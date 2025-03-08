@@ -15,6 +15,8 @@ func _ready() -> void:
 func _on_visibility_changed() -> void:
 	if !visible:
 		_emit_false()
+		
+		# If the disable button is pressed then it changes the setting
 		if %Disable/Button.button_pressed:
 			AFCDock.settings.set(settings_property,false)
 			AFCDock.instance.save_settings()

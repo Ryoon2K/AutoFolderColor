@@ -246,7 +246,6 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ltt02")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4p5of")
 theme_override_styles/normal = SubResource("StyleBoxFlat_2ys8u")
 toggle_mode = true
-button_pressed = true
 text = "Auto"
 
 [node name="VSeparator" type="VSeparator" parent="Margin/Main/ActionButtons/Margin/Buttons"]
@@ -640,7 +639,6 @@ unique_name_in_owner = true
 position = Vector2i(335, 446)
 FOLDER = "res://addons/autofoldercolor/save_data/saved_configs/"
 boolean_text = "This will overwrite all of your current keywords."
-show_warning = false
 
 [node name="SaveMenu" parent="Popups" instance=ExtResource("5_82nrk")]
 unique_name_in_owner = true
